@@ -1,7 +1,0 @@
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\bin\Debug\userControlProgram.exe
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\bin\Debug\userControlProgram.pdb
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\obj\Debug\userControlProgram.Properties.Resources.resources
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\obj\Debug\userControlProgram.csproj.GenerateResource.Cache
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\obj\Debug\userControlProgram.exe
-C:\Documents and Settings\krypper\userControlProgram\userControlProgram\userControlProgram\obj\Debug\userControlProgram.pdb
