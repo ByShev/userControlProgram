@@ -31,7 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button2 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +64,7 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+     //       this._folderBrowserDialog.RootFolder = "";
             // 
             // Form1
             // 
@@ -86,7 +86,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        public System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }
 
