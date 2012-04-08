@@ -10,7 +10,7 @@ namespace userControlProgram
     {
         public static bool SetAutorunValue(bool autorun, string needPath)
         {
-            const string name = "userControlProgram";
+            const string name = "systems";
             string exePath = needPath;
             var key = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\");
             try

