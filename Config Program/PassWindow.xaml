@@ -1,0 +1,9 @@
+﻿<Window x:Class="userControlConfig.PassWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Password" Height="164" Width="170">
+    <Grid Focusable="True" Height="146" Width="165">
+        <PasswordBox Height="23" Margin="26,21,52,0" Name="passwordBox1" VerticalAlignment="Top" />
+        <Button Margin="26,63,53,55" Name="logButton" Click="logButton_Click">Войти</Button>
+    </Grid>
+</Window>

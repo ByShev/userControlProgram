@@ -1,0 +1,67 @@
+﻿<Window x:Class="userControlConfig.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Настройки" Height="283" Width="490">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*" />
+            <ColumnDefinition Width="468*" />
+        </Grid.ColumnDefinitions>
+        <TabControl Name="tabControl1" Grid.ColumnSpan="2" Margin="-8.568,-5.712,0,0">
+            <TabItem Margin="0" Height="30" Width="100" IsSelected="True">
+                <TabItem.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Height="Auto" Width="Auto" TextAlignment="Center">Основные</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid ShowGridLines="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="e-mail"/>
+                    <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Путь к логу"/>
+                    <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Интервал скриншотов" />
+                    <TextBox Grid.Column="1" Name="emailTextBox" Margin="0,15.541" />
+                    <TextBox Grid.Column="1" Grid.Row="1" Name="logTextBox" Margin="0,12.912,0,15.541" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Name="timerTextBox" Margin="0,15.541" />
+                    <Button Background="#FFE2E2E2" Grid.Column="2" Grid.Row="1" Name="button1" Height="23" Width="75" Click="button1_Click_1">Обзор</Button>
+                    <Button Grid.Column="1" Grid.Row="3" Name="saveConfig" Content="Сохранить" Height="23" Width="75" Click="saveConfig_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Width="100" IsSelected="True">
+                <TabItem.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock TextAlignment="Center" >Другие</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Height="28" Name="oldPassLabel" Width="100" Content="Старый пароль"/>
+                    <Label Grid.Column="0" Grid.Row="1" Height="28" Name="newPassLabel" Width="100" Content="Новый пароль"/>
+                    <Label Grid.Column="0" Grid.Row="2" Height="28" Name="newPassRLabel" Width="120" Content="Повторите пароль"/>
+                    <PasswordBox Grid.Column="1" Grid.Row="0" Height="23" Name="oldPassBox" Width="120"/>
+                    <PasswordBox Grid.Column="1" Grid.Row="1" Height="23" Name="newPassBox" Width="120"/>
+                    <PasswordBox Grid.Column="1" Grid.Row="2" Height="23" Name="newRPassBox" Width="120"/>
+                    <Button Grid.Column="1" Grid.Row="3" Height="23" Name="changePassButton" Width="75" Click="changePassButton_Click">Сохранить</Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

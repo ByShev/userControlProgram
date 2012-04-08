@@ -36,7 +36,7 @@ namespace userControlProgram
             foreach ( var screen in Screen.AllScreens)
             {
                 Image img = TakeScreenshot(screen);
-                img.Save(_logDir + "screen" + count + "_" + DateTime.Now.Hour + "h." + DateTime.Now.Minute+"m." + DateTime.Now.Second + "s.jpg");
+                img.Save(_logDir + "\\screen" + count + "_" + DateTime.Now.Hour + "h." + DateTime.Now.Minute+"m." + DateTime.Now.Second + "s.jpg");
                 count++;
             }
         }
