@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.IO;
-using System.Text;
 using System.Timers;
 using System.Drawing;
 using System.Windows.Forms;
@@ -12,22 +7,17 @@ using Timer = System.Timers.Timer;
 
 namespace userControlProgram
 {
-    class ScreenshotMaker
+    static class ScreenshotMaker
     {
         private static Timer _timer;
         private static string _logDir;
-
-        public static void  ScreenshotStart()
-        {
-            ScreenshotStart(1800, "");  // interval 30 min
-        }
 
         public static void ScreenshotStart(int interval, string directory)
         {
             _logDir = directory;
             _timer = new Timer(interval);
             _timer.Start();
-            _timer.Elapsed += new ElapsedEventHandler(OnTimerTick);
+            _timer.Elapsed += OnTimerTick;
         }
 
         public static void OnTimerTick(object o, ElapsedEventArgs e)

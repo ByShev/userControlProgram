@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.IO;
 
 namespace userControlProgram
 {
     class SetConfigurations
     {
-        public static bool SetConfig(ref string mailTo, ref string logPath, ref int mailInterval)
+        public static bool SetConfig(ref string mailTo, ref string logPath, ref int mailInterval, ref int screenshotInterval, ref bool isAutorun)
         {
             try
             {
@@ -17,6 +14,8 @@ namespace userControlProgram
                 mailTo = config.ReadString();
                 logPath = config.ReadString();
                 mailInterval = config.ReadInt32();
+                screenshotInterval = config.ReadInt32();
+                isAutorun = config.ReadBoolean();
                 config.Close();
             }
             catch

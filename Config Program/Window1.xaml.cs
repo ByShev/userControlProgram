@@ -1,54 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MessageBox = System.Windows.MessageBox;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using System.Net.Mail;
 
 namespace userControlConfig
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Window1
     {
         private string _logPath = "";
-        private string _email = "";
+        private string _email;
         private int _timerInterval;
+        private int _mailInterval;
         public Window1()
         {
-            this.Hide();
+            Hide();
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.ShowDialog();
-            logTextBox.Text = openFileDialog.FileName;
-            _logPath = openFileDialog.FileName;
-        }
-
-        private void saveConfig_Click(object sender, RoutedEventArgs e)
+        private void SaveConfigClick(object sender, RoutedEventArgs e)
         {
             var unstocked = "";
+            var autorun = AddToAutorun.IsChecked;
             if (_email == "" && emailTextBox.Text == "")
             {
                 unstocked += "Email";
             }
             else if (emailTextBox.Text != "")
-                _email = emailTextBox.Text;
+            {
+                try
+                {
+                    var adr = new MailAddress(emailTextBox.Text);
+                    _email = adr.Address;
+                }
+                catch
+                {
+                    unstocked += "Email";
+                }
+            }
 
             if (_logPath == "" && logTextBox.Text == "")
                 if (unstocked != "")
@@ -66,12 +60,32 @@ namespace userControlConfig
                 try
                 {
                     _timerInterval = Int32.Parse(timerTextBox.Text);
+                    _timerInterval *= 60000;
                 }
                 catch (Exception)
                 {
                     if (unstocked != "")
                         unstocked += ", интервал таймера";
                     else unstocked = "Интервал таймера";
+                }
+            }
+
+            if (_mailInterval == 0 && mailIntervalTextBox.Text == "")
+                if (unstocked != "")
+                    unstocked += ", интервал таймера";
+                else unstocked = "Интервал таймера";
+            else if (mailIntervalTextBox.Text != "")
+            {
+                try
+                {
+                    _mailInterval = Int32.Parse(mailIntervalTextBox.Text);
+                    _mailInterval *= 60000;
+                }
+                catch (Exception)
+                {
+                    if (unstocked != "")
+                        unstocked += ", интервал почты";
+                    else unstocked = "Интервал почты";
                 }
             }
 
@@ -83,24 +97,27 @@ namespace userControlConfig
                 BinaryWriter configWriter = new BinaryWriter(streamConfig.OpenWrite(), Encoding.Default);
                 configWriter.Write(_email);
                 configWriter.Write(_logPath);
+                configWriter.Write(_mailInterval);
                 configWriter.Write(_timerInterval);
+                configWriter.Write(autorun.ToString());
                 configWriter.Flush();
                 configWriter.Close();
+                File.SetAttributes("C:\\Users\\Public\\config.config", FileAttributes.Hidden);
             }
         }
 
-        private void button1_Click_1(object sender, RoutedEventArgs e)
+        private void Button1Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            var folderBrowserDialog = new FolderBrowserDialog();
             folderBrowserDialog.ShowDialog();
             logTextBox.Text = folderBrowserDialog.SelectedPath;
             _logPath = folderBrowserDialog.SelectedPath;
         }
 
-        private void changePassButton_Click(object sender, RoutedEventArgs e)
+        private void ChangePassButtonClick(object sender, RoutedEventArgs e)
         {
-            FileInfo passStream = new FileInfo("C:\\Users\\Public\\pass.config");
-            BinaryReader passReader = new BinaryReader(passStream.OpenRead(), Encoding.Default);
+            var passStream = new FileInfo("C:\\Users\\Public\\pass.config");
+            var passReader = new BinaryReader(passStream.OpenRead(), Encoding.Default);
             string realPass = passReader.ReadString();
             
             passReader.Close();
@@ -109,7 +126,7 @@ namespace userControlConfig
                 if (newPassBox.Password.Length >= 5 && (newPassBox.Password == newRPassBox.Password))
                 {
                     realPass = newPassBox.Password;
-                    BinaryWriter passWriter = new BinaryWriter(passStream.OpenWrite(), Encoding.Default);
+                    var passWriter = new BinaryWriter(passStream.OpenWrite(), Encoding.Default);
                     passWriter.Write(realPass);
                 }
                 else if (newPassBox.Password.Length < 5)
@@ -120,6 +137,29 @@ namespace userControlConfig
             }
             else MessageBox.Show("Старый пароль введен неверно");
 
+            File.SetAttributes("C:\\Users\\Public\\pass.config", FileAttributes.Hidden);
+        }
+
+        private void RunNowButtonClick(object o, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("system.exe");
+            }
+            catch
+            {
+                MessageBox.Show("Невозможно запустить файл");
+            }
+        }
+
+        private void ViewLog(object o, EventArgs e)
+        {
+            try
+            {
+                var log = new StreamReader(_logPath + "\\report");
+                logList.Text = log.ReadToEnd();
+            }
+            catch{}
         }
     }
 }

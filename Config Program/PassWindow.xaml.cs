@@ -26,26 +26,37 @@ namespace userControlConfig
             InitializeComponent();
         }
 
-        private void logButton_Click(object sender, RoutedEventArgs e)
+        private void LogButtonClick(object sender, RoutedEventArgs e)
         {
-            FileInfo passStream = new FileInfo("C:\\Users\\Public\\pass.config");
-            Window1 window1 = new Window1();
-            BinaryReader passReader = new BinaryReader(passStream.OpenRead(), Encoding.Default);
-            string pass = "";
+            var passStream = new FileInfo("C:\\Users\\Public\\pass.config");
+            var window1 = new Window1();
+            var passReader = new BinaryReader(passStream.OpenRead(), Encoding.Default);
+            var pass = "";
             pass = passReader.ReadString();
             if (pass == passwordBox1.Password)
             {
                 _isLogIn = true;
                 window1.Show();
-                this.Close();
+                Close();
                 return;
             }
-            else if (_logInTrying == 0)
-                this.Close();
             else
             {
                 _logInTrying--;
-                MessageBox.Show("Попыток осталось: " + _logInTrying);
+                if (_logInTrying == 0)
+                {
+                    this.Close();
+                }
+                MessageBox.Show("Неверный пароль. Попыток осталось: " + _logInTrying);
+                passwordBox1.Password = "";
+            }
+        }
+
+        private void CheckKey(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                LogButtonClick(0, null);
             }
         }
     }
