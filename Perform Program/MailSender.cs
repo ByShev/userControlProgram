@@ -29,7 +29,7 @@ namespace userControlProgram
             {
                 using (var zip = new ZipFile())
                 {
-                    zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
+                    zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestSpeed;
                     zip.AddDirectory(_path);
                     zip.Save(zipName);
                 }
@@ -75,7 +75,7 @@ namespace userControlProgram
             catch (Exception ex)
             {
                 var log = new StreamWriter(_path + "\\report", true);
-                log.WriteLine("Error in sending files. Message: '" + ex.Message + "'\n");
+                log.WriteLine("Error in sending files. Message: '" + ex.Message + "'");
                 log.Flush();
                 log.Close();
             }
@@ -125,7 +125,7 @@ namespace userControlProgram
             catch (Exception ex)
             {
                 var log = new StreamWriter(_path + "\\report", true);
-                log.WriteLine("Error in deliting files. Message: '" + ex.Message + "'\n");
+                log.WriteLine("Error in deliting files. Message: '" + ex.Message + "'");
                 log.Flush();
                 log.Close();
             }

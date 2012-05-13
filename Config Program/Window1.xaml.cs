@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Security;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
@@ -144,7 +146,7 @@ namespace userControlConfig
         {
             try
             {
-                System.Diagnostics.Process.Start("system.exe");
+                System.Diagnostics.Process.Start("system.exe"/*, "", "system", new SecureString(), ""*/);
             }
             catch
             {
